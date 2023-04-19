@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+
+  <title>Frontend Mentor | Interactive rating component</title>
+
+  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+  <style>
+    .attribution {
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .attribution a {
+      color: hsl(228, 45%, 44%);
+    }
+  </style>
+
+  <!-- google font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- <link rel="stylesheet" href="./css/tailwind.css"> -->
+  <link rel="stylesheet" href="./css/style.min.css">
+
+</head>
+
+<body class="font-overpass bg-primary-Very-Dark-Blue text-white">
+
+  <main class="flex flex-col gap-1 justify-center items-center h-screen">
+
+    <div class="max-w-[350px] desktop:max-w-[375px] bg-primary-Dark-Blue rounded-3xl">
+
+      <div id="reviewState" class="flex flex-col p-6">
+
+        <div class="">
+          <img src="./images/icon-star.svg" alt="..." class="bg-[#2a3642] rounded-full p-3 mb-3">
+        </div>
+
+        <div>
+          <h1 class="text-2xl font-semibold my-2">
+            How did we do?
+          </h1>
+        </div>
+
+        <p class="text-[15px] text-primary-Light-Grey">
+          Please let us know how we did with your support request. All feedback is appreciated
+          to help us improve our offering!
+        </p>
+
+        <div class="text-primary-Medium-Grey mt-6 mb-4 flex justify-between">
+
+          <div
+            class="w-[40px] h-[40px] rounded-full flex justify-center items-center bg-[#2a3642] hover:bg-primary-Orange hover:text-white hover:cursor-pointer duration-300 rating-item">
+            1
+          </div>
+          <div
+            class="w-[40px] h-[40px] rounded-full flex justify-center items-center bg-[#2a3642] hover:bg-primary-Orange hover:text-white hover:cursor-pointer duration-300 rating-item">
+            2
+          </div>
+          <div
+            class="w-[40px] h-[40px] rounded-full flex justify-center items-center bg-[#2a3642] hover:bg-primary-Orange hover:text-white hover:cursor-pointer duration-300 rating-item">
+            3
+          </div>
+          <div
+            class="w-[40px] h-[40px] rounded-full flex justify-center items-center bg-[#2a3642] hover:bg-primary-Orange hover:text-white hover:cursor-pointer duration-300 rating-item">
+            4
+          </div>
+          <div
+            class="w-[40px] h-[40px] rounded-full flex justify-center items-center bg-[#2a3642] hover:bg-primary-Orange hover:text-white hover:cursor-pointer duration-300 rating-item">
+            5
+          </div>
+
+        </div>
+
+        <button id="btnSub"
+          class="bg-primary-Orange  w-full rounded-full h-10 uppercase font-semibold mb-3 mt-2 hover:bg-white hover:text-primary-Orange duration-700 ">
+          Submit
+        </button>
+
+      </div>
+
+      <div class="desktop:p-4 hidden flex-col p-5" id="thankYouState">
+
+        <div class="flex flex-col items-center justify-center">
+          <div>
+            <img src="./images/illustration-thank-you.svg" alt="...">
+          </div>
+          <div class=" text-primary-Orange text-sm bg-[#2a3642] py-1 px-4 rounded-full my-6 text-[16px]">
+            You selected <span id="currentScore" class="">4</span> out of 5
+          </div>
+        </div>
+
+        <h1 class="text-3xl text-center mb-2">
+          Thank you!
+        </h1>
+
+        <p class="text-center pb-4 text-[15px] text-primary-Light-Grey">
+          We appreciate you taking the time to give a rating. If you ever need more support,
+          don’t hesitate to get in touch!
+        </p>
+
+      </div>
+
+    </div>
+
+    <div class="attribution text-[15px]">
+      Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>.
+      Coded by <a href="https://github.com/sajidrec" target="_blank">MD. Sajid Hossain</a>.
+    </div>
+
+  </main>
+
+  <script>
+
+    let allRatingItems = document.getElementsByClassName("rating-item");
+    let currentScoreSet = document.getElementById("currentScore");
+
+    let currentRating = -1;
+
+    for (let i = 0; i < allRatingItems.length; i++) {
+      allRatingItems[i].addEventListener(
+        "click", () => {
+
+          let curState = Number(allRatingItems[i].innerHTML);
+
+          for (let j = 0; j < allRatingItems.length; j++) {
+            allRatingItems[j].classList.add("hover:bg-primary-Orange");
+            allRatingItems[j].classList.remove("btn-activated");
+          }
+
+          if (curState == currentRating) {
+            allRatingItems[i].classList.add("hover:bg-primary-Orange");
+            allRatingItems[i].classList.remove("btn-activated");
+            currentRating = -1;
+            currentScoreSet.innerText = " ";
+          }
+          else {
+            allRatingItems[i].classList.add("btn-activated");
+            allRatingItems[i].classList.remove("hover:bg-primary-Orange");
+            currentRating = curState;
+            currentScoreSet.innerText = currentRating;
+          }
+
+        }
+      );
+    }
+
+
+    let btnSub = document.getElementById("btnSub");
+
+    btnSub.addEventListener("mouseover", () => {
+      if (currentRating == -1) {
+        btnSub.classList.add("hover:cursor-not-allowed");
+        btnSub.classList.remove("hover:cursor-pointer");
+      }
+      else {
+        btnSub.classList.add("hover:cursor-pointer");
+        btnSub.classList.remove("hover:cursor-not-allowed");
+      }
+    });
+
+    btnSub.addEventListener("click", () => {
+      if (currentRating != -1) {
+        let thankYouState = document.getElementById("thankYouState");
+        thankYouState.classList.remove("hidden");
+        thankYouState.classList.add("flex");
+
+        let reviewState = document.getElementById("reviewState");
+        reviewState.classList.add("hidden");
+        reviewState.classList.remove("flex");
+      }
+    });
+
+
+  </script>
+
+</body>
+
+</html>
